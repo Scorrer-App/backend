@@ -96,6 +96,7 @@ export const processRaid = (state, raidData) => {
     const outPlayersAttacking = [];
     const outPlayersDefending = [];
     let eventLog = "";
+    let isBonusScoredRecord = false;
 
     // Stats updates
     const getOrInitStats = (userId) => {
@@ -146,6 +147,7 @@ export const processRaid = (state, raidData) => {
                 raiderStats.bonusPoints += 1;
                 raiderStats.raidPoints += 1;
                 eventLog += "Bonus point scored. ";
+                isBonusScoredRecord = true;
             }
         }
 
@@ -171,6 +173,7 @@ export const processRaid = (state, raidData) => {
         pointsAttacking += 1;
         raiderStats.bonusPoints += 1;
         raiderStats.raidPoints += 1;
+        isBonusScoredRecord = true;
 
         // Reset consecutive empty raids
         nextState.consecutiveEmptyRaids[attackingTeamKey] = 0;
@@ -285,25 +288,12 @@ export const processRaid = (state, raidData) => {
         eventLog += `Foul/Technical event recorded. Attacking: +${pointsAttacking}, Defending: +${pointsDefending}.`;
     }
 
-    // Apply scores
-    if (attackingTeamKey === "teamA") {
-        nextState.score.teamA += pointsAttacking;
-        nextState.score.teamB += pointsDefending;
-    } else {
-        nextState.score.teamA += pointsDefending;
-        nextState.score.teamB += pointsAttacking;
-    }
-
     // Check All-Out for defending team
     if (defendingTeam.activePlayers.length === 0) {
         eventLog += ` All-Out! ${attackingTeamKey === "teamA" ? "Team A" : "Team B"} inflicts All-Out on ${defendingTeamKey === "teamA" ? "Team A" : "Team B"}.`;
         
-        // Add +2 All-Out points
-        if (attackingTeamKey === "teamA") {
-            nextState.score.teamA += 2;
-        } else {
-            nextState.score.teamB += 2;
-        }
+        // Add +2 All-Out points to pointsAttacking
+        pointsAttacking += 2;
 
         // Restore all players from squad (excluding injured)
         defendingTeam.activePlayers = defendingTeam.squad.filter(id => !defendingTeam.injuredPlayers.includes(id));
@@ -314,16 +304,21 @@ export const processRaid = (state, raidData) => {
     if (attackingTeam.activePlayers.length === 0) {
         eventLog += ` All-Out! ${defendingTeamKey === "teamA" ? "Team A" : "Team B"} inflicts All-Out on ${attackingTeamKey === "teamA" ? "Team A" : "Team B"}.`;
 
-        // Add +2 All-Out points
-        if (defendingTeamKey === "teamA") {
-            nextState.score.teamA += 2;
-        } else {
-            nextState.score.teamB += 2;
-        }
+        // Add +2 All-Out points to pointsDefending
+        pointsDefending += 2;
 
         // Restore all players from squad (excluding injured)
         attackingTeam.activePlayers = attackingTeam.squad.filter(id => !attackingTeam.injuredPlayers.includes(id));
         attackingTeam.outPlayers = [];
+    }
+
+    // Apply scores
+    if (attackingTeamKey === "teamA") {
+        nextState.score.teamA += pointsAttacking;
+        nextState.score.teamB += pointsDefending;
+    } else {
+        nextState.score.teamA += pointsDefending;
+        nextState.score.teamB += pointsAttacking;
     }
 
     // Compile raid record
@@ -336,7 +331,7 @@ export const processRaid = (state, raidData) => {
         revivedDefending,
         outPlayersAttacking,
         outPlayersDefending,
-        isBonusScored,
+        isBonusScored: isBonusScoredRecord,
         isSuperTackle,
         eventLog,
         timestamp: new Date()
