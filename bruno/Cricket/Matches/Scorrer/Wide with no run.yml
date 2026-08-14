@@ -1,0 +1,27 @@
+info:
+  name: Wide with no run
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{url}}/cricket/matches/6a7de7220f863a555b5fe212/ball"
+  body:
+    type: json
+    data: |-
+      {
+        "runs": 0,
+        "extras": {
+          "type": "wide",
+          "runs": 0
+        }
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY2MzU3ODMsImV4cCI6MTc4NjYzNjY4M30.iMuFVyG_BFaiYlliEXfKKcPCt-b2RoU5INZQOuZ4_iU
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

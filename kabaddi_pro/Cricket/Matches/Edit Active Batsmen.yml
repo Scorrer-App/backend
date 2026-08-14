@@ -1,0 +1,18 @@
+info:
+  name: Edit Active Batsmen
+  type: http
+  seq: 6
+
+http:
+  method: PATCH
+  url: {{baseUrl}}/v1/cricket/matches/60d5ec49e29a3e2154ad5c55/active-batsmen
+  headers:
+    - name: Authorization
+      value: Bearer {{accessToken}}
+  body:
+    type: json
+    data: |-
+      {
+        "strikerId": "60d5ec49e29a3e2154ad5c4a",
+        "nonStrikerId": "60d5ec49e29a3e2154ad5c4b"
+      }

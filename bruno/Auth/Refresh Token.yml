@@ -1,0 +1,20 @@
+info:
+  name: Refresh Token
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{url}}/auth/refresh"
+  body:
+    type: json
+    data: |-
+      {
+        "refreshToken": "c5e2086b1ce8c47f9288a850a4e74ff7377d808db75d125ae958722a84f40c61b9588994e7a43cb13aff48ed1721a224d5e2bc4e09c475b6ba1e6141920d593c"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,27 @@
+info:
+  name: No Ball with runs
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{url}}/cricket/matches/6a7dea792a5e986561460351/ball"
+  body:
+    type: json
+    data: |-
+      {
+        "runs": 0,
+        "extras": {
+          "type": "leg_bye",
+          "runs": 2
+        }
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY2MzY3MDAsImV4cCI6MTc4NjYzNzYwMH0.CCqCUuGnEfieGDXz87ynGgDBwijmL4Mhv_NeYfkdHE0
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

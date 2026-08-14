@@ -1,0 +1,25 @@
+info:
+  name: Start Inning 2
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{url}}/cricket/matches/6a7dae9be05b26b329389170/next-innings"
+  body:
+    type: json
+    data: |
+      {
+        "strikerId": "6a7d980f573d7e2ac9026691",
+        "nonStrikerId": "6a7d980f573d7e2ac9026690",
+        "bowlerId": "6a7caac2bb4c205178449b76"
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY2MjE2NjYsImV4cCI6MTc4NjYyMjU2Nn0.Nk6d-bNt4ox7d0ayQeI_afj5Z9reTxgCIm6vtAPOP8c
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

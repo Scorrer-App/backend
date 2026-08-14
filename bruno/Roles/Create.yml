@@ -1,0 +1,27 @@
+info:
+  name: Create
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{url}}/auth/roles"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "users",
+        "permissions": [
+          "team.view",
+          "ground.view"
+        ]
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY1NTM3OTgsImV4cCI6MTc4NjU1NDY5OH0.3OLE3zdv9aXPZ_BmbtBpCSkeY1GtEQYVmooX2GZQrok
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

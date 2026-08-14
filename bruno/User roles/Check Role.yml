@@ -1,0 +1,17 @@
+info:
+  name: Check Role
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{url}}/auth/users/6a7c15a37c39ead8c41e2306/roles"
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY1NTM3OTgsImV4cCI6MTc4NjU1NDY5OH0.3OLE3zdv9aXPZ_BmbtBpCSkeY1GtEQYVmooX2GZQrok
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

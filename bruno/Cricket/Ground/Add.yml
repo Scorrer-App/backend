@@ -1,0 +1,25 @@
+info:
+  name: Add
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{url}}/cricket/grounds"
+  body:
+    type: json
+    data: |
+      {
+        "name": "Cricket Stadium",
+        "city": "Delhi",
+        "country": "India"
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY2MjA3MzUsImV4cCI6MTc4NjYyMTYzNX0.5ryO7Ow4bMNKuD5ef6N_JB0OPaeb7x9unyG3PuhKHH0
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,41 @@
+meta {
+  name: Create Team
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/cricket/teams
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "name": "Mumbai Indians",
+    "players": [
+      {
+        "userId": "60d5ec49e29a3e2154ad5c4a",
+        "role": "batsman",
+        "isCaptain": true,
+        "isWicketKeeper": false
+      },
+      {
+        "userId": "60d5ec49e29a3e2154ad5c4b",
+        "role": "wicket_keeper",
+        "isCaptain": false,
+        "isWicketKeeper": true
+      },
+      {
+        "userId": "60d5ec49e29a3e2154ad5c4c",
+        "role": "bowler",
+        "isCaptain": false,
+        "isWicketKeeper": false
+      }
+    ]
+  }
+}

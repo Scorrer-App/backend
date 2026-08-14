@@ -1,0 +1,31 @@
+meta {
+  name: Record Ball
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/v1/cricket/matches/60d5ec49e29a3e2154ad5c55/ball
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "runs": 4,
+    "extras": {
+      "type": "no_ball",
+      "runs": 0
+    },
+    "wicket": {
+      "type": "caught",
+      "playerOutId": "60d5ec49e29a3e2154ad5c4a",
+      "nextBatterId": "60d5ec49e29a3e2154ad5c4f"
+    },
+    "nextBowlerId": "60d5ec49e29a3e2154ad5c4e"
+  }
+}

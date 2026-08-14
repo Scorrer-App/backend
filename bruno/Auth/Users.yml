@@ -1,0 +1,17 @@
+info:
+  name: Users
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{url}}/auth/allUsers"
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY2MTY4NTYsImV4cCI6MTc4NjYxNzc1Nn0.FEUN_J5cwmmq2yReZ69KCY_5th9IxWJ3OEIfsYSPZG0
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

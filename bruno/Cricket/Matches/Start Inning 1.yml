@@ -1,0 +1,25 @@
+info:
+  name: Start Inning 1
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{url}}/cricket/matches/6a7de7220f863a555b5fe212/start"
+  body:
+    type: json
+    data: |-
+      {
+        "strikerId": "6a7c15a37c39ead8c41e2306",
+        "nonStrikerId": "6a7caac2bb4c205178449b76",
+        "bowlerId": "6a7d980f573d7e2ac9026691"
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY2MzU3ODMsImV4cCI6MTc4NjYzNjY4M30.iMuFVyG_BFaiYlliEXfKKcPCt-b2RoU5INZQOuZ4_iU
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

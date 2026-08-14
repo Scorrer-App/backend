@@ -1,0 +1,49 @@
+info:
+  name: Add
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{url}}/cricket/teams"
+  body:
+    type: json
+    data: |
+      {
+        "name": "Team B",
+        "players": [
+          {
+            "userId": "6a7d980f573d7e2ac9026691",
+            "role": "bowler",
+            "isCaptain": true,
+            "isWicketKeeper": false
+          },
+          {
+            "userId": "6a7d980f573d7e2ac9026690",
+            "role": "wicket_keeper",
+            "isCaptain": false,
+            "isWicketKeeper": true
+          },
+          {
+            "userId": "6a7d980f573d7e2ac902668f",
+            "role": "all_rounder",
+            "isCaptain": false,
+            "isWicketKeeper": false
+          },
+          {
+            "userId": "6a7d980f573d7e2ac902668e",
+            "role": "all_rounder",
+            "isCaptain": false,
+            "isWicketKeeper": false
+          }
+        ]
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY2MjA3MzUsImV4cCI6MTc4NjYyMTYzNX0.5ryO7Ow4bMNKuD5ef6N_JB0OPaeb7x9unyG3PuhKHH0
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

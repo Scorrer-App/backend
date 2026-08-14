@@ -1,0 +1,31 @@
+info:
+  name: Add
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{url}}/cricket/matches"
+  body:
+    type: json
+    data: |
+      {
+        "groundId": "6a7dad31e05b26b32938916d",
+        "teamAId": "6a7dadace05b26b32938916e",
+        "teamBId": "6a7dae64e05b26b32938916f",
+        "format": "T20",
+        "overs": 20,
+        "toss": {
+          "wonBy": "6a7dadace05b26b32938916e",
+          "decision": "bat"
+        }
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY2MzU3ODMsImV4cCI6MTc4NjYzNjY4M30.iMuFVyG_BFaiYlliEXfKKcPCt-b2RoU5INZQOuZ4_iU
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

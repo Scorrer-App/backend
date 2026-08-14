@@ -1,0 +1,15 @@
+meta {
+  name: Get Scorecard
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/v1/cricket/matches/60d5ec49e29a3e2154ad5c55/scorecard
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

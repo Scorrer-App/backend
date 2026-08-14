@@ -1,0 +1,23 @@
+meta {
+  name: Start Match
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/cricket/matches/60d5ec49e29a3e2154ad5c55/start
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "strikerId": "60d5ec49e29a3e2154ad5c4a",
+    "nonStrikerId": "60d5ec49e29a3e2154ad5c4b",
+    "bowlerId": "60d5ec49e29a3e2154ad5c4c"
+  }
+}

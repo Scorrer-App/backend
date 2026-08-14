@@ -1,0 +1,29 @@
+meta {
+  name: Create Match
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/cricket/matches
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "groundId": "60d5ec49e29a3e2154ad5c33",
+    "teamAId": "60d5ec49e29a3e2154ad5c11",
+    "teamBId": "60d5ec49e29a3e2154ad5c22",
+    "format": "T20",
+    "overs": 20,
+    "toss": {
+      "wonBy": "60d5ec49e29a3e2154ad5c11",
+      "decision": "bat"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Get Team by ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/cricket/teams/60d5ec49e29a3e2154ad5c11
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}

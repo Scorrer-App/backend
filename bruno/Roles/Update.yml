@@ -1,0 +1,33 @@
+info:
+  name: Update
+  type: http
+  seq: 3
+
+http:
+  method: PATCH
+  url: "{{url}}/auth/roles/6a7ca7d21e6f568206d5d494"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "admin",
+        "permissions": [
+          "team.view",
+          "team.create",
+          "team.update",
+          "team.delete",
+          "ground.view",
+          "ground.allocate",
+          "ground.create",
+          "ground.update"
+        ]
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY1NTM3OTgsImV4cCI6MTc4NjU1NDY5OH0.3OLE3zdv9aXPZ_BmbtBpCSkeY1GtEQYVmooX2GZQrok
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

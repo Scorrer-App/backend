@@ -1,0 +1,21 @@
+info:
+  name: Edit Delivery
+  type: http
+  seq: 7
+
+http:
+  method: PATCH
+  url: {{baseUrl}}/v1/cricket/matches/60d5ec49e29a3e2154ad5c55/ball/0
+  headers:
+    - name: Authorization
+      value: Bearer {{accessToken}}
+  body:
+    type: json
+    data: |-
+      {
+        "runs": 4,
+        "extras": {
+          "type": "no_ball",
+          "runs": 0
+        }
+      }

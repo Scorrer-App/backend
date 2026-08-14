@@ -1,0 +1,20 @@
+info:
+  name: Get
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{url}}/cricket/grounds"
+  body:
+    type: json
+    data: ""
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjMTVhMzdjMzllYWQ4YzQxZTIzMDYiLCJwaG9uZSI6IjgxOTk4NTQ4OTgiLCJpYXQiOjE3ODY2MTYwMDMsImV4cCI6MTc4NjYxNjkwM30.Eg9JYqZ6lQ1yCrHheF0Of5Y37AcoT3mep6675JHWM8U
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
