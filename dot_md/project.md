@@ -203,9 +203,9 @@ The project implements two distinct rule profiles:
 - **Court**: Rectangular.
 - **Starting Lineup**: Exactly 7 players on court.
 - **Out & Revival**: Touching defenders places them OUT. Raider getting tackled is OUT. Revivals occur in FIFO order of `outPlayers` matching the touch count / tackle outcome.
-- **Bonus Point**: Eligible when defending team has $\ge 6$ active players. Raider scores $+1$ point (does not revive).
+- **Bonus Point**: Eligible when defending team has $\ge 6$ active players. Raider scores $+1$ point (does not revive). The `isBonusScored` flag is explicitly stored as `true` in the raid history.
 - **Super Tackle**: Active when defending team has $\le 3$ active players. Successful tackle scores $+2$ points to defenders and revives $1$ player.
-- **All-Out**: Triggered when a team has $0$ active players. The other team scores $+2$ additional points. All players of the defending team (excluding injured) are restored.
+- **All-Out**: Triggered when a team has $0$ active players. The other team scores $+2$ additional points. All players of the defending team (excluding injured) are restored. The $+2$ All-Out points are added directly to the raid record's `pointsAttacking`/`pointsDefending` so that the final team score matches the mathematical sum of all raid points.
 - **Do-or-Die**: When a team records 2 consecutive empty raids, the 3rd raid MUST score. If empty, the raider is declared OUT, and the defending team receives $+1$ point + 1 revival.
 
 ### Circle / Punjab rules
@@ -213,7 +213,7 @@ The project implements two distinct rule profiles:
 - **Starting Lineup**: Exactly 8 players on court.
 - **Out & Revival**: No players ever go OUT. Everyone remains on court. Touch or Tackle points simply add to the score.
 - **One-on-One**: A raider interacts with one stopper. If two stoppers attack, a "multiple_stoppers" defensive foul is called, giving $+1$ point to the raider.
-- **Out of Bounds**: If the stopper goes out of bounds, the attacking team receives $+1$ point. If the raider goes out of bounds, the defending team receives $+1$ point.
+- **Out of Bounds**: Custom foul logic handles boundary excursions. If the stopper goes out of bounds, the attacking team receives $+1$ point. If the raider goes out of bounds, the defending team receives $+1$ point.
 
 ---
 
