@@ -74,7 +74,6 @@ export const register = async (req, res) => {
 };
 
 
-// All user
 // All users
 export const allUsers = async (req, res) => {
     try {
