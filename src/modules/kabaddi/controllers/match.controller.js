@@ -356,16 +356,22 @@ export const endMatch = async (req, res) => {
             return res.status(400).json({ success: false, message: "Only live matches can be completed" });
         }
 
+        const teams = db("kabaddi", "teams");
+        const teamA = await teams.findOne({ _id: match.teamAId });
+        const teamB = await teams.findOne({ _id: match.teamBId });
+        const teamAName = teamA ? teamA.name : "Team A";
+        const teamBName = teamB ? teamB.name : "Team B";
+
         const score = match.state.score;
         let winnerId = null;
         let resultMessage = "Match drawn";
 
         if (score.teamA > score.teamB) {
             winnerId = match.teamAId;
-            resultMessage = `Team A won by ${score.teamA - score.teamB} points`;
+            resultMessage = `${teamAName} won by ${score.teamA - score.teamB} points`;
         } else if (score.teamB > score.teamA) {
             winnerId = match.teamBId;
-            resultMessage = `Team B won by ${score.teamB - score.teamA} points`;
+            resultMessage = `${teamBName} won by ${score.teamB - score.teamA} points`;
         }
 
         // Save final state update
@@ -497,6 +503,10 @@ export const recordSubstitution = async (req, res) => {
 
         const state = JSON.parse(JSON.stringify(match.state));
         const team = state[teamKey];
+
+        if (playerOutId === playerInId) {
+            return res.status(400).json({ success: false, message: "Cannot substitute a player with themselves" });
+        }
 
         // Validate playerInId is on the substitutes bench
         if (!team.substitutes.includes(playerInId)) {

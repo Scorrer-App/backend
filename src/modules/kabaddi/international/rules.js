@@ -3,20 +3,87 @@ export const processRaid = (state, raidData) => {
     const nextState = JSON.parse(JSON.stringify(state));
     const { raiderId, outcome, touchedPlayers = [], defenderId, isBonusScored = false, isSuperTackle = false } = raidData;
 
-    // Determine attacking and defending teams
+    // Determine attacking and defending teams and validate raider is active
     let attackingTeamKey, defendingTeamKey;
-    if (nextState.teamA.activePlayers.includes(raiderId) || nextState.teamA.outPlayers.includes(raiderId)) {
+    
+    const isRaiderActiveA = nextState.teamA.activePlayers.includes(raiderId);
+    const isRaiderActiveB = nextState.teamB.activePlayers.includes(raiderId);
+    
+    if (isRaiderActiveA) {
         attackingTeamKey = "teamA";
         defendingTeamKey = "teamB";
-    } else if (nextState.teamB.activePlayers.includes(raiderId) || nextState.teamB.outPlayers.includes(raiderId)) {
+    } else if (isRaiderActiveB) {
         attackingTeamKey = "teamB";
         defendingTeamKey = "teamA";
     } else {
+        // Raider is not active on court. Determine why and throw appropriate error.
+        const inA = nextState.teamA.outPlayers.includes(raiderId) || 
+                    nextState.teamA.substitutes.includes(raiderId) || 
+                    nextState.teamA.injuredPlayers.includes(raiderId);
+        const inB = nextState.teamB.outPlayers.includes(raiderId) || 
+                    nextState.teamB.substitutes.includes(raiderId) || 
+                    nextState.teamB.injuredPlayers.includes(raiderId);
+        
+        if (inA || inB) {
+            const teamKey = inA ? "teamA" : "teamB";
+            const team = nextState[teamKey];
+            if (team.outPlayers.includes(raiderId)) {
+                throw new Error(`Raider ${raiderId} is currently OUT`);
+            } else if (team.substitutes.includes(raiderId)) {
+                throw new Error(`Raider ${raiderId} is a substitute`);
+            } else if (team.injuredPlayers.includes(raiderId)) {
+                throw new Error(`Raider ${raiderId} is injured`);
+            }
+        }
         throw new Error(`Raider ${raiderId} does not belong to either team in the match`);
     }
 
     const attackingTeam = nextState[attackingTeamKey];
     const defendingTeam = nextState[defendingTeamKey];
+
+    // Validate defenderId (for tackle/super_tackle outcomes)
+    if (defenderId) {
+        if (!defendingTeam.activePlayers.includes(defenderId)) {
+            const belongsToAttacking = attackingTeam.activePlayers.includes(defenderId) || 
+                                       attackingTeam.outPlayers.includes(defenderId) || 
+                                       attackingTeam.substitutes.includes(defenderId) || 
+                                       attackingTeam.injuredPlayers.includes(defenderId);
+            if (belongsToAttacking) {
+                throw new Error(`Defender ${defenderId} belongs to the attacking team`);
+            } else if (defendingTeam.outPlayers.includes(defenderId)) {
+                throw new Error(`Defender ${defenderId} is currently OUT`);
+            } else if (defendingTeam.substitutes.includes(defenderId)) {
+                throw new Error(`Defender ${defenderId} is a substitute`);
+            } else if (defendingTeam.injuredPlayers.includes(defenderId)) {
+                throw new Error(`Defender ${defenderId} is injured`);
+            } else {
+                throw new Error(`Defender ${defenderId} does not belong to the defending team`);
+            }
+        }
+    }
+
+    // Validate touchedPlayers (for touch outcomes)
+    if (touchedPlayers && touchedPlayers.length > 0) {
+        for (const pid of touchedPlayers) {
+            if (!defendingTeam.activePlayers.includes(pid)) {
+                const belongsToAttacking = attackingTeam.activePlayers.includes(pid) || 
+                                           attackingTeam.outPlayers.includes(pid) || 
+                                           attackingTeam.substitutes.includes(pid) || 
+                                           attackingTeam.injuredPlayers.includes(pid);
+                if (belongsToAttacking) {
+                    throw new Error(`Touched player ${pid} belongs to the attacking team`);
+                } else if (defendingTeam.outPlayers.includes(pid)) {
+                    throw new Error(`Touched player ${pid} is already OUT`);
+                } else if (defendingTeam.substitutes.includes(pid)) {
+                    throw new Error(`Touched player ${pid} is a substitute`);
+                } else if (defendingTeam.injuredPlayers.includes(pid)) {
+                    throw new Error(`Touched player ${pid} is injured`);
+                } else {
+                    throw new Error(`Touched player ${pid} does not belong to the defending team`);
+                }
+            }
+        }
+    }
 
     const attackingTeamId = attackingTeamKey === "teamA" ? nextState.teamAId : nextState.teamBId;
     const defendingTeamId = defendingTeamKey === "teamA" ? nextState.teamAId : nextState.teamBId;
