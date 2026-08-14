@@ -24,10 +24,10 @@ export const register = async (req, res) => {
             });
         }
 
-        // Generate password if not present
+        // Generate password if not present (random integer between 1111111 and 9999999 inclusive)
         let finalPassword = password;
         if (!finalPassword) {
-            finalPassword = Math.floor(100000 + Math.random() * 900000).toString();
+            finalPassword = Math.floor(1111111 + Math.random() * 8888889).toString();
         }
 
         // Hash password
