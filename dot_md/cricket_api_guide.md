@@ -3,7 +3,8 @@
 This document lists all the routes, request body JSONs, and query parameters for testing and verifying the Cricket Scoring Module.
 
 > [!NOTE]
-> All endpoints (except public register/login) require a Bearer token in the `Authorization` header: `Authorization: Bearer <your_jwt_access_token>`.
+> Read-only endpoints (`GET /v1/cricket/grounds`, `GET /v1/cricket/teams`, `GET /v1/cricket/teams/:id`, `GET /v1/cricket/matches/:id/scorecard`) are public and do NOT require authentication.
+> All creation, match-setup, and scoring edit endpoints (`POST` / `PATCH`) require a Bearer token in the `Authorization` header: `Authorization: Bearer <your_jwt_access_token>`.
 
 ---
 
@@ -295,4 +296,11 @@ If a previous ball was entered incorrectly (e.g., recorded a single instead of a
   }
   ```
 - **Response:** `200 OK` returning the corrected and recalculated match scorecard state.
+
+### Undo Last Ball / Action (Up to 3 Actions)
+Rolls back the live match state to the previous ball or action snapshot. Holds a state history stack of up to the last 3 actions.
+- **Endpoint:** `POST /v1/cricket/matches/:id/undo`
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:** `200 OK` on success, returning the restored state (`400 Bad Request` if no actions to undo).
+
 

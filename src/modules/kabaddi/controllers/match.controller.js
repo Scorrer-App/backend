@@ -226,7 +226,7 @@ export const recordRaid = async (req, res) => {
         const { nextState, pointsScored, eventLog } = result;
 
         // Keep state history for undo
-        const historyLimit = 5;
+        const historyLimit = 3;
         const history = match.stateHistory || [];
         const stateSnapshot = JSON.parse(JSON.stringify(match.state));
         const nextHistory = [...history, stateSnapshot].slice(-historyLimit);
@@ -309,7 +309,7 @@ export const updateLineup = async (req, res) => {
         }
 
         // Push state history before lineup updates
-        const historyLimit = 5;
+        const historyLimit = 3;
         const history = match.stateHistory || [];
         const stateSnapshot = JSON.parse(JSON.stringify(match.state));
         const nextHistory = [...history, stateSnapshot].slice(-historyLimit);
@@ -444,7 +444,7 @@ export const recordInjury = async (req, res) => {
         team.injuredPlayers.push(userId);
 
         // Push state history
-        const historyLimit = 5;
+        const historyLimit = 3;
         const history = match.stateHistory || [];
         const stateSnapshot = JSON.parse(JSON.stringify(match.state));
         const nextHistory = [...history, stateSnapshot].slice(-historyLimit);
@@ -554,7 +554,7 @@ export const recordSubstitution = async (req, res) => {
         }
 
         // Push state history
-        const historyLimit = 5;
+        const historyLimit = 3;
         const history = match.stateHistory || [];
         const stateSnapshot = JSON.parse(JSON.stringify(match.state));
         const nextHistory = [...history, stateSnapshot].slice(-historyLimit);
@@ -613,7 +613,7 @@ export const recordTimeout = async (req, res) => {
         state.timeouts.push(timeoutRecord);
 
         // Push state history
-        const historyLimit = 5;
+        const historyLimit = 3;
         const history = match.stateHistory || [];
         const stateSnapshot = JSON.parse(JSON.stringify(match.state));
         const nextHistory = [...history, stateSnapshot].slice(-historyLimit);
@@ -666,7 +666,7 @@ export const switchHalf = async (req, res) => {
         state.currentHalf = 2;
 
         // Push state history
-        const historyLimit = 5;
+        const historyLimit = 3;
         const history = match.stateHistory || [];
         const stateSnapshot = JSON.parse(JSON.stringify(match.state));
         const nextHistory = [...history, stateSnapshot].slice(-historyLimit);

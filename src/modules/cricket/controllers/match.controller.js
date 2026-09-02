@@ -45,6 +45,7 @@ export const createMatch = async (req, res) => {
             },
             status: "scheduled",
             state: null,
+            stateHistory: [],
             winnerId: null,
             resultMessage: "",
             createdAt: new Date(),
@@ -638,12 +639,24 @@ export const recordBall = async (req, res) => {
             }
         }
 
+        // Maintain state history for undo (max limit 3)
+        const historyLimit = 3;
+        const history = match.stateHistory || [];
+        const stateSnapshot = {
+            state: JSON.parse(JSON.stringify(match.state)),
+            status: match.status,
+            winnerId: match.winnerId,
+            resultMessage: match.resultMessage
+        };
+        const nextHistory = [...history, stateSnapshot].slice(-historyLimit);
+
         // Save modifications to database
         const updateParams = {
             "state.innings": state.innings,
             "state.currentBatsmen": state.currentBatsmen,
             "state.freeHit": state.freeHit,
             "state.currentBowler": state.currentBowler,
+            stateHistory: nextHistory,
             updatedAt: new Date()
         };
 
@@ -900,12 +913,23 @@ export const updateActiveBatsmen = async (req, res) => {
             { userId: nonStrikerObjectId, isStriker: false }
         ];
 
+        const historyLimit = 3;
+        const history = match.stateHistory || [];
+        const stateSnapshot = {
+            state: JSON.parse(JSON.stringify(match.state)),
+            status: match.status,
+            winnerId: match.winnerId,
+            resultMessage: match.resultMessage
+        };
+        const nextHistory = [...history, stateSnapshot].slice(-historyLimit);
+
         await matches.updateOne(
             { _id: new ObjectId(id) },
             {
                 $set: {
                     "state.currentBatsmen": updatedBatsmen,
                     "state.innings": match.state.innings,
+                    stateHistory: nextHistory,
                     updatedAt: new Date()
                 }
             }
@@ -1152,11 +1176,22 @@ export const updateDelivery = async (req, res) => {
             resultMessage = "";
         }
 
+        const historyLimit = 3;
+        const history = match.stateHistory || [];
+        const stateSnapshot = {
+            state: JSON.parse(JSON.stringify(match.state)),
+            status: match.status,
+            winnerId: match.winnerId,
+            resultMessage: match.resultMessage
+        };
+        const nextHistory = [...history, stateSnapshot].slice(-historyLimit);
+
         const updateParams = {
             "state.innings": state.innings,
             status: matchStatus,
             winnerId,
             resultMessage,
+            stateHistory: nextHistory,
             updatedAt: new Date()
         };
 
@@ -1182,6 +1217,54 @@ export const updateDelivery = async (req, res) => {
     } catch (error) {
         console.error("Update delivery error:", error);
         return res.status(500).json({ success: false, message: "Failed to update delivery details" });
+    }
+};
+
+// UNDO LAST EVENT / BALL
+export const undoLastEvent = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, message: "Invalid match ID" });
+        }
+
+        const matches = db("cricket", "matches");
+        const match = await matches.findOne({ _id: new ObjectId(id) });
+        if (!match) {
+            return res.status(404).json({ success: false, message: "Match not found" });
+        }
+
+        const history = match.stateHistory || [];
+        if (history.length === 0) {
+            return res.status(400).json({ success: false, message: "No actions to undo" });
+        }
+
+        const nextHistory = [...history];
+        const previousSnapshot = nextHistory.pop();
+
+        await matches.updateOne(
+            { _id: new ObjectId(id) },
+            {
+                $set: {
+                    state: previousSnapshot.state,
+                    status: previousSnapshot.status || "live",
+                    winnerId: previousSnapshot.winnerId || null,
+                    resultMessage: previousSnapshot.resultMessage || "",
+                    stateHistory: nextHistory,
+                    updatedAt: new Date()
+                }
+            }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Last action undone successfully",
+            state: previousSnapshot.state
+        });
+    } catch (error) {
+        console.error("Undo error:", error);
+        return res.status(500).json({ success: false, message: "Failed to undo last action" });
     }
 };
 

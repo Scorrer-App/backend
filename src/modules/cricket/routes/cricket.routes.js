@@ -11,20 +11,21 @@ const router = express.Router();
 
 // Ground Management
 router.post("/grounds", verifyToken, validate(schema.groundSchema), ground.createGround);
-router.get("/grounds", verifyToken, ground.getGrounds);
+router.get("/grounds", ground.getGrounds);
 
 // Team Management
 router.post("/teams", verifyToken, validate(schema.teamSchema), team.createTeam);
-router.get("/teams", verifyToken, team.getTeams);
-router.get("/teams/:id", verifyToken, team.getTeamById);
+router.get("/teams", team.getTeams);
+router.get("/teams/:id", team.getTeamById);
 
 // Match Management
 router.post("/matches", verifyToken, validate(schema.matchSchema), match.createMatch);
 router.post("/matches/:id/start", verifyToken, validate(schema.startMatchSchema), match.startMatch);
 router.post("/matches/:id/next-innings", verifyToken, validate(schema.startMatchSchema), match.startNextInnings);
 router.post("/matches/:id/ball", verifyToken, validate(schema.ballSchema), match.recordBall);
-router.get("/matches/:id/scorecard", verifyToken, match.getScorecard);
+router.get("/matches/:id/scorecard", match.getScorecard);
 router.patch("/matches/:id/active-batsmen", verifyToken, validate(schema.activeBatsmenSchema), match.updateActiveBatsmen);
 router.patch("/matches/:id/ball/:index", verifyToken, validate(schema.ballSchema), match.updateDelivery);
+router.post("/matches/:id/undo", verifyToken, match.undoLastEvent);
 
 export default router;

@@ -11,18 +11,18 @@ const router = express.Router();
 
 // Ground Management
 router.post("/grounds", verifyToken, validate(schema.groundSchema), ground.createGround);
-router.get("/grounds", verifyToken, ground.getGrounds);
+router.get("/grounds", ground.getGrounds);
 
 // Team Management
 router.post("/teams", verifyToken, validate(schema.teamSchema), team.createTeam);
-router.get("/teams", verifyToken, team.getTeams);
-router.get("/teams/:id", verifyToken, team.getTeamById);
+router.get("/teams", team.getTeams);
+router.get("/teams/:id", team.getTeamById);
 
 // Match Management
 router.post("/matches", verifyToken, validate(schema.matchSchema), match.createMatch);
 router.post("/matches/:id/start", verifyToken, validate(schema.startMatchSchema), match.startMatch);
 router.post("/matches/:id/raid", verifyToken, validate(schema.raidSchema), match.recordRaid);
-router.get("/matches/:id/scorecard", verifyToken, match.getScorecard);
+router.get("/matches/:id/scorecard", match.getScorecard);
 router.patch("/matches/:id/lineup", verifyToken, validate(schema.lineupSchema), match.updateLineup);
 router.post("/matches/:id/end", verifyToken, match.endMatch);
 router.post("/matches/:id/injury", verifyToken, validate(schema.injurySchema), match.recordInjury);
